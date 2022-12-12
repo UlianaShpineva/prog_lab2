@@ -1,11 +1,11 @@
 package lab3;
 import java.util.HashMap;
-import java.util.Map;
 
 public class Human extends Creature implements Memorisable, Countable {
     public Human (String name) {
         super(name);
     }
+    
     private final HashMap<String, Integer> memory = new HashMap<>();
 
     public int getMemory(String s) {
