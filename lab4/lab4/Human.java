@@ -1,5 +1,6 @@
 package lab4;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Human extends Creature implements Memorisable, Countable {
@@ -8,7 +9,7 @@ public class Human extends Creature implements Memorisable, Countable {
     }
 
     private final HashMap<String, Integer> memory = new HashMap<>();
-    
+    public boolean status;
 
     public int getMemory(String s) {
         return memory.get(s);
@@ -16,6 +17,31 @@ public class Human extends Creature implements Memorisable, Countable {
 
     public void memorise(String s, Integer i) {
         memory.put(s, i);
+    }
+
+    public void followTheAdvice(String advice){
+        System.out.println(this.toString() + " follow the advice: " + advice);
+    }
+
+    public boolean dieWithoutFood(Integer days) {
+        if (days < 480) {
+            status = true;
+        } else {
+            status = false;
+        }
+        return status;
+    }
+
+    public void goToMoonCave(Human human) {
+        System.out.println(this.toString() + ", " + human.toString() + " went to moon cave");
+    }
+
+    public void loseBoot() {
+        System.out.println(this.toString() + " lost space boot");
+    }
+
+    public void seeSuffering(String reason, ArrayList<Human> humans) {
+        System.out.println(humans.toString() + " suffer from " + reason);
     }
 
     @Override
@@ -36,5 +62,8 @@ public class Human extends Creature implements Memorisable, Countable {
         System.out.println(this.toString() + " got food for " + years + " year and " + months + " months");
     }
 
-
+    @Override
+    public String toString() {
+        return this.getName();
+    }
 }
