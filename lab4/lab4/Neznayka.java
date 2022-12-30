@@ -7,16 +7,17 @@ public final class Neznayka extends Human {
 
 
     @Override
-    public void memorise(String s, Integer i) throws OutOfMemoryError{
-        class OutOfHumanMemoryError extends Error{
-            public OutOfHumanMemoryError(String text) {
-                super(text);
+    public void memorise(String s, Integer i) {
+        class IllegalMemoryArgumentException extends RuntimeException{
+            public IllegalMemoryArgumentException(String message) {
+                super(message);
             }
         }
-        if (i > 999) {
-            throw new OutOfHumanMemoryError("Neznayka doesn't have enough memory");
+        if (i <= 999) {
+            super.memorise(s, i);
+        } else {
+            throw new IllegalMemoryArgumentException("Neznayka can't remember this number");
         }
-        super.memorise(s, i);
     }
 
     public void checkSomeone(Human human){
