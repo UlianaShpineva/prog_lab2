@@ -30,6 +30,7 @@ public class PersonForm extends Form<Person> {
             name = scanner.nextLine().trim();
             if (name.isBlank()){
                 console.printError("Имя не может быть пустым");
+                if (ScannerManager.fileMode()) return "";
             }
             else{
                 return name;
