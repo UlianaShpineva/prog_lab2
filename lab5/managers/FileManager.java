@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import console.Console;
 import exceptions.IllegalArgument;
+import exceptions.InvalidForm;
 import exceptions.NoSuchCommand;
 import exceptions.ScriptRecursionException;
 import models.StudyGroup;
@@ -33,9 +34,6 @@ public class FileManager {
 
     public FileManager(Console console, String fileName, RuntimeManager runtimeManager) {
         this.runtimeManager = runtimeManager;
-        if (!(new File(fileName).exists())) {
-            fileName = "../" + fileName;
-        }
         this.fileName = fileName;
         this.console = console;
     }
@@ -80,11 +78,36 @@ public class FileManager {
 
                 TreeSet<StudyGroup> tmpCollection = gson.fromJson(jsonString.toString(), collectionType);
                 TreeSet<StudyGroup> collection = new TreeSet<StudyGroup>();
+                List<Integer> tmpIdOfEach = new ArrayList<>();
+                List<Integer> idOfEach = new ArrayList<>();
                 tmpCollection.forEach(p -> {
                     if (!p.validate()) {
                         console.printError("Элемент с id = " + p.getId() + " имеет невалидные поля");
                     } else {
-                        collection.add(p);
+                        if (tmpIdOfEach.isEmpty()) {
+                            idOfEach.add(p.getId());
+                            collection.add(p);
+                        } else {
+                            for (int el : tmpIdOfEach) {
+                                if (p.getId() == el) {
+                                    console.printError("Элемент с id = " + p.getId() + " уже находится в коллекции");
+                                } else {
+                                    idOfEach.add(p.getId());
+                                    collection.add(p);
+                                }
+                            }
+                        }
+                    }
+                    for (int el : idOfEach) {
+                        boolean test = false;
+                        for (int tmpEl : tmpIdOfEach) {
+                            if (el == tmpEl) {
+                                test = true;
+                            }
+                        }
+                        if (!test) {
+                            tmpIdOfEach.add(el);
+                        }
                     }
                 });
                 console.println("Коллекция загружена из файла");
@@ -108,9 +131,9 @@ public class FileManager {
      * @param fileName Имя скрипта
      */
     public void scriptMode(String fileName) {
-        if (!new File(fileName).exists()) {
-            fileName = "../" + fileName;
-        }
+        /*if (!new File(fileName).exists()) {
+            fileName = fileName;
+        }*/
         scriptStack.add(new File(fileName));
         try (Scanner scriptScanner = new Scanner(new File(fileName))) {
             if (!scriptScanner.hasNext()) throw new NoSuchElementException();
