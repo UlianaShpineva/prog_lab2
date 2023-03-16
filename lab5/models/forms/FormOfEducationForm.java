@@ -35,6 +35,7 @@ public class FormOfEducationForm extends Form<FormOfEducation> {
                 return FormOfEducation.valueOf(input);
             } catch (IllegalArgumentException exception){
                 console.printError("Такой формы обучения нет в списке");
+                if (ScannerManager.fileMode()) return null;
             } catch (Throwable throwable) {
                 console.printError("Непредвиденная ошибка!");
             }
