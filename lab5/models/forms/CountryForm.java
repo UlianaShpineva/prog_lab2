@@ -36,6 +36,7 @@ public class CountryForm extends Form<Country> {
                 return Country.valueOf(input);
             } catch (IllegalArgumentException exception){
                 console.printError("Такой страны нет в списке");
+                if (ScannerManager.fileMode()) return null;
             } catch (Throwable throwable) {
                 console.printError("Непредвиденная ошибка!");
             }
