@@ -31,6 +31,7 @@ public class CoordinatesForm extends Form<Coordinates> {
             try {
                 if (Long.parseLong(input) <= -487) {
                     console.printError("Координата X должна быть больше -487");
+                    if (ScannerManager.fileMode()) return (long) -500;
                 } else {
                     return Long.parseLong(input);
                 }
