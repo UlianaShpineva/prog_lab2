@@ -32,6 +32,7 @@ public class StudyGroupForm extends Form<StudyGroup> {
             name = scanner.nextLine().trim();
             if (name.isBlank()){
                 console.printError("Имя не может быть пустым");
+                if (ScannerManager.fileMode()) return "";
             }
             else{
                 return name;
@@ -58,6 +59,7 @@ public class StudyGroupForm extends Form<StudyGroup> {
             try {
                 if (input == null || Long.parseLong(input) <= 0) {
                     console.printError("Число студентов должно быть положительным");
+                    if (ScannerManager.fileMode()) return (long) -1;
                 } else {
                     return Long.parseLong(input);
                 }
@@ -80,6 +82,7 @@ public class StudyGroupForm extends Form<StudyGroup> {
             try {
                 if (Integer.parseInt(input) <= 0) {
                     console.printError("Количество отчисленных студентов должно быть положительным");
+                    if (ScannerManager.fileMode()) return -1;
                 } else {
                     return Integer.parseInt(input);
                 }
@@ -102,13 +105,14 @@ public class StudyGroupForm extends Form<StudyGroup> {
             try {
                 if (Integer.parseInt(input) <= 0) {
                     console.printError("Количество переведенных студентов должно быть положительным");
+                    if (ScannerManager.fileMode()) return -1;
                 } else {
                     return Integer.parseInt(input);
                 }
             } catch (NumberFormatException exception) {
                 console.printError("Число студентов должно быть числом типа int");
             } catch (Throwable throwable) {
-                console.printError("Непредвиденная ошибка!");
+            console.printError("Непредвиденная ошибка!");
             }
         }
     }
